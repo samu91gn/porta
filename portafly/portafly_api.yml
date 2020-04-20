@@ -7,7 +7,7 @@ info:
     A tuned API for PortaFly, a Patternfly SPA consuming 3scale Porta API MGMT solution.
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
 paths:
   /developer/accounts:
     summary: A list of developer accounts
@@ -15,27 +15,47 @@ paths:
     get:
       responses:
         "200":
-          $ref: '#/components/responses/developerAccountList'
+          $ref: "#/components/responses/developerAccountList"
       operationId: developerAccountList
       summary: Get developer account list
     parameters:
-    - name: page
-      description: Page in the paginated list. Defaults to 1.
-      schema:
-        type: integer
-      in: query
-      required: false
-    - name: per_page
-      description: Number of results per page. Default and max is 500.
-      schema:
-        type: integer
-      in: query
-      required: false
-    - name: state
-      description: Account state.
-      schema:
-        type: string
-      in: query
+      - name: page
+        description: Page in the paginated list. Defaults to 1.
+        schema:
+          type: integer
+        in: query
+        required: false
+      - name: per_page
+        description: Number of results per page. Default and max is 500.
+        schema:
+          type: integer
+        in: query
+        required: false
+      - name: state
+        description: Account state.
+        schema:
+          type: string
+        in: query
+  /admin/account/users:
+    summary: A list of user accounts
+    description: A list of user accounts.
+    get:
+      responses:
+        "200":
+          $ref: "#/components/responses/accountUsersList"
+      operationId: accountUsersList
+      summary: Get account users list
+    parameters:
+      - name: page
+        description: Page in the paginated list. Defaults to 1.
+        schema:
+          type: integer
+        in: query
+      - name: per_page
+        description: Number of results per page. Default and max is 500.
+        schema:
+          type: integer
+        in: query
 components:
   schemas:
     DeveloperAccount:
@@ -68,12 +88,63 @@ components:
           type: integer
       example:
         id: 1
-        created_at: 2019-10-18T05:13:26Z
-        updated_at: 2019-10-18T05:13:27Z
+        created_at: "2019-10-18T05:13:26.000Z"
+        updated_at: "2019-10-18T05:13:27.000Z"
         state: approved
         org_name: Umbrella Corp.
         admin_name: Oswell E. Spencer
         apps_count: 3
+    AccountUser:
+      title: Root Type for accountUserData
+      description: A simplified format for an account user data.
+      type: object
+      properties:
+        id:
+          description: The user ID number
+          type: integer
+        name:
+          description: Name of the user
+          type: string
+        email:
+          description: Email of the user
+          type: string
+        role:
+          description: Role (admin/member) of the user
+          type: string
+        is_current_user:
+          description: Is user the currently logged in user?
+          type: boolean
+        can_see_users:
+          description: Can the user see other users?
+          type: boolean
+        authenticated_through_sso:
+          description: Is the user authenticated through SSO?
+          type: boolean
+        can_delete_user:
+          description: Can current user see other users?
+          type: boolean
+        can_invite_user:
+          description: Can the current user invite more users?
+          type: boolean
+        permissions:
+          description: "List of user permissions "
+          type: array
+          items:
+            type: string
+      example:
+        id: 1
+        name: Eric Cartman
+        email: eric@southpark.com
+        role: admin
+        permissions:
+          - Developer Portal
+          - Billing
+          - Settings
+        is_current_user: true
+        can_see_users: true
+        authenticated_through_sso: false
+        can_delete_user: true
+        can_invite_user: true
   responses:
     developerAccountList:
       content:
@@ -81,22 +152,83 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/DeveloperAccount'
+              $ref: "#/components/schemas/DeveloperAccount"
           examples:
             developerAccountListExample:
               value:
-              - id: 22
-                created_at: 2018-02-10T09:30Z
-                updated_at: 2018-02-10T09:30Z
-                state: approved
-                org_name: Capsule Corp
-                admin_name: Dr. Brief
-                apps_count: 4
-              - id: 72
-                created_at: 2018-02-10T09:30Z
-                updated_at: 2018-02-10T09:30Z
-                state: approved
-                org_name: FOXHOUND
-                admin_name: Big Boss
-                apps_count: 5
+                - id: 22
+                  created_at: "2018-02-10T09:30Z"
+                  updated_at: "2018-02-10T09:30Z"
+                  state: approved
+                  org_name: Capsule Corp
+                  admin_name: Dr. Brief
+                  apps_count: 4
+                - id: 72
+                  created_at: "2018-02-10T09:30Z"
+                  updated_at: "2018-02-10T09:30Z"
+                  state: approved
+                  org_name: FOXHOUND
+                  admin_name: Big Boss
+                  apps_count: 5
+                - id: 40
+                  created_at: "2018-02-11T09:30Z"
+                  updated_at: "2018-02-11T09:30Z"
+                  state: pending
+                  org_name: B.P.R.D
+                  admin_name: Dr. Thomas Manning
+                  apps_count: 10
+                - id: 41
+                  created_at: "2018-02-12T09:30Z"
+                  updated_at: "2018-02-12T09:30Z"
+                  state: approved
+                  org_name: MomCorp
+                  admin_name: Mom
+                  apps_count: 2
+                - id: 42
+                  created_at: "2018-02-12T09:30Z"
+                  updated_at: "2018-02-12T09:30Z"
+                  state: approved
+                  org_name: Sirius Cybernetics
+                  admin_name: Admin
+                  apps_count: 3
+                - id: 43
+                  created_at: "2018-03-10T09:30Z"
+                  updated_at: "2018-03-10T09:30Z"
+                  state: approved
+                  org_name: Los Pollos Hermanos
+                  admin_name: Gustavo Fring
+                  apps_count: 4
       description: Developer accountlist
+    accountUsersList:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AccountUser"
+          examples:
+            accountUserListExample:
+              value:
+                - id: 1
+                  name: Eric Cartman
+                  email: eric@southpark.com
+                  role: admin
+                  is_current_user: true
+                  can_see_users: true
+                  authenticated_through_sso: false
+                  can_delete_user: true
+                  can_invite_user: true
+                - id: 2
+                  name: Kyle Broflovski
+                  email: kyle@southpark.com
+                  role: member
+                  permissions:
+                    - Developer Portal
+                    - Billing
+                    - Settings
+                  is_current_user: false
+                  can_see_users: true
+                  authenticated_through_sso: false
+                  can_delete_user: false
+                  can_invite_user: false
+      description: Account Users List
