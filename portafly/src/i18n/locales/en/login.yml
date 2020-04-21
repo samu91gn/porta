@@ -1,0 +1,15 @@
+---
+page_title: Login | Portafly
+page_title_description: Log in to your account
+body_title: Login
+body_title_description: Login page
+subtitle: This is the Login page
+subtitle_description: Subtitle of the Login page
+brand_img_alt: Red Hat logo
+background_img_alt: Background Images
+login_title: Log in to your account
+login_subtitle: Please, use your access token in order to log in
+login_submit: Submit
+login_cancel: Cancel
+form_label_token: Token
+text_content: THIS IS A TEMPORARY LOG IN FLOW, NOT PRODUCTION READY!!!
