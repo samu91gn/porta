@@ -30,7 +30,7 @@ x-apicast_engironment:
   &apicast_environment
   environment:
     - APICAST_LOG_LEVEL=debug
-    - THREESCALE_PORTAL_ENDPOINT=http://7aafa313e1a0f51212cece3671068734a1bb6e313f2ba6ffafab171b08a11178@provider-admin.3scale.localhost:3000
+    - THREESCALE_PORTAL_ENDPOINT=${PORTAL_ENDPOINT}
     - THREESCALE_DEPLOYMENT_ENV=staging
     - BACKEND_ENDPOINT_OVERRIDE=http://apisonator:3001
 
